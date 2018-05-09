@@ -13,6 +13,8 @@
 		6B17EAFC20A27DFF00FD2FB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B17EAFA20A27DFF00FD2FB1 /* LaunchScreen.storyboard */; };
 		6B17EB0520A27E9D00FD2FB1 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17EB0320A27E9D00FD2FB1 /* DetailsViewController.swift */; };
 		6B17EB0620A27E9D00FD2FB1 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17EB0420A27E9D00FD2FB1 /* ScannerViewController.swift */; };
+		6B17EB0820A2997200FD2FB1 /* TotalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17EB0720A2997200FD2FB1 /* TotalCell.swift */; };
+		6B17EB0A20A2998100FD2FB1 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17EB0920A2998100FD2FB1 /* ProductCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		6B17EAFD20A27DFF00FD2FB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B17EB0320A27E9D00FD2FB1 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		6B17EB0420A27E9D00FD2FB1 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		6B17EB0720A2997200FD2FB1 /* TotalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCell.swift; sourceTree = "<group>"; };
+		6B17EB0920A2998100FD2FB1 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				6B17EAF820A27DFF00FD2FB1 /* Assets.xcassets */,
 				6B17EAFA20A27DFF00FD2FB1 /* LaunchScreen.storyboard */,
 				6B17EAFD20A27DFF00FD2FB1 /* Info.plist */,
+				6B17EB0720A2997200FD2FB1 /* TotalCell.swift */,
+				6B17EB0920A2998100FD2FB1 /* ProductCell.swift */,
 			);
 			path = FlowBox;
 			sourceTree = "<group>";
@@ -141,6 +147,8 @@
 			files = (
 				6B17EAF220A27DFF00FD2FB1 /* AppDelegate.swift in Sources */,
 				6B17EB0520A27E9D00FD2FB1 /* DetailsViewController.swift in Sources */,
+				6B17EB0A20A2998100FD2FB1 /* ProductCell.swift in Sources */,
+				6B17EB0820A2997200FD2FB1 /* TotalCell.swift in Sources */,
 				6B17EB0620A27E9D00FD2FB1 /* ScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

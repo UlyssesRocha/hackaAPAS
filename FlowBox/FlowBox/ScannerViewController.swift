@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
-class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UITableViewDelegate {
+class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var PreviewView: UIView!
     var captureDevice:AVCaptureDevice?
@@ -18,28 +18,56 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     var captureSession:AVCaptureSession?
     let headerSize = 205.0
     let height = 305.0
-    var isHidden = true
+    var isHidden = false
+
+    var products = [String]()
+    var prodCount = [String : Int]()
+
     
-    var products = [String : Int]()
-    var prices = [String : Int]()
-    
+    var prices = [String : Double]()
+    var names = [String : String]()
+
+    var totalCost = 0.0
     
     @IBOutlet weak var tableView: UITableView!
     @IBAction func didPressToScan(_ sender: Any) {
         // Calculate new frame size for the table header
         var newRect = tableView.frame
-        newRect.origin.y = CGFloat(isHidden ? 50 : headerSize);
-        newRect.size.height = CGFloat(isHidden ? headerSize : 0) + CGFloat(height-50)
+        newRect.origin.y = CGFloat(!isHidden ? 60 : headerSize);
+        newRect.size.height = CGFloat(!isHidden ? headerSize : 0) + CGFloat(height-55)
 
         // Get the reference to the header view
         // Animate the height change
         UIView.animate(withDuration: 0.6, animations: { () -> Void in
             self.isHidden = !self.isHidden
+            if(self.isHidden) {
+                self.captureSession?.stopRunning()
+            }else {
+                self.captureSession?.startRunning()
+            }
             self.tableView.frame = newRect
         })
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        //Registro
+        prices["3700123302360"] = 1.0
+        names["3700123302360"] = "Agua M. Nestle S.Gas"
+        
+        prices["7908066400075"] = 3.55
+        names["7908066400075"] = "Chips Batata Mais Pura"
+
+        
+
+        
+        
+        
+        
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         // Do any additional setup after loading the view, typically from a nib.
         navigationItem.title = "Scanner"
         view.backgroundColor = .white
@@ -118,14 +146,34 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         guard let barcodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObject) else { return }
         codeFrame.frame = barcodeObject.bounds
         codeLabel.text = stringCodeValue
-
+        print(stringCodeValue)
         
         // Stop capturing and hence stop executing metadataOutput function over and over again
-        captureSession?.stopRunning()
+        if let v = prices[stringCodeValue] {
+            
+            self.captureSession?.stopRunning()
+            
+            totalCost = totalCost + v;
+            
+            let alert = UIAlertController(title: "Adicionado ao Carrinho", message: names[stringCodeValue], preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add an action (button)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in
+                self.captureSession?.startRunning()
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            
+            if let _ = prodCount[stringCodeValue] {
+                prodCount[stringCodeValue] = prodCount[stringCodeValue]! + 1
+            }else {
+                products.append(stringCodeValue)
+                prodCount[stringCodeValue] = 1
+            }
+        }
         
-        // Call the function which performs navigation and pass the code string value we just detected
-//        displayDetailsViewController(scannedCode: stringCodeValue)
-        
+        self.tableView.reloadData()
     }
     
     func displayDetailsViewController(scannedCode: String) {
@@ -137,6 +185,30 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
 
     //UITableView
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if(indexPath.row == 0 ) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalCell
+            cell.setPrice(cents: Double(totalCost))
+            return cell
+        }
+        
+        var product = products[indexPath.row-1]
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath) as! ProductCell
+        
+        cell.setCell(name: names[product]!, count: prodCount[product]!,
+                     cents: Double(Float(prodCount[product]!) * Float(prices[product]!)))
+        
+        return cell
+    }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1;
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1 + products.count
+    }
     
 }
